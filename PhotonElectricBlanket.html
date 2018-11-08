@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <title>Electric Blanket Control</title>
+      <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+    </head>
+      <body>
+          <h1><center>
+          <img src= "https://dlnmh9ip6v2uc.cloudfront.net/tutorialimages/EngineeringRoundTable/electricBlanket.jpg ">
+          </center></h1>
+
+          <center>
+          <h3>Blanket Power:</h3>
+          <button id="onbutton" onclick="setAction('on')" style="height:50px; width:150px">ON</button>
+          <br>
+          <button id="offbutton" onclick="setAction('off')" style="height:50px; width:150px">OFF</button>
+          <br>
+
+          <h3>Set Blanket Temperature:</h3>
+          <button id="highbutton" onclick="setAction('high')" style="height:50px; width:150px">HIGH</button>
+          <br>
+          <button id="medbutton"  onclick="setAction('med')" style="height:50px; width:150px">MEDIUM</button>
+          <br>
+          <button id="lowbutton"  onclick="setAction('low')" style="height:50px; width:150px">LOW</button>
+          <br>
+          <br>
+
+          <h3>Blanket is currently:</h3>
+          <span id="currentblanketState"></span><br>
+
+          <h3>Current Temperature:</h3>
+          <span id="currenttempCount"></span>
+          <br>
+          <br>
+          <button id="resetbutton" onclick="setAction('reset')" style="height:50px; width:150px">RESET</button>
+          <br>
+          <button id="reloadbutton" onclick="setAction('refresh')" style="height:50px; width:150px">REFRESH</button>
+          <br>
+
+    </center>
+
+    <script type="text/javascript">
+
+      var deviceID    = "22001f000447343138333038";
+      var accessToken = "17eca6cd5930b921751370f8de980dfe3f59c2ac";
+
+      var checkAction = "checkAction";
+      var setTemp = "setTemp";
+
+      var blanketState = "blanketState";
+      var tempState = "tempState";
+      var tempCount = "tempCount";
+
+
+      function setAction(command) {
+	      var requestURL = "https://api.spark.io/v1/devices/" + deviceID + "/" + checkAction + "/";
+        $.post( requestURL, { params: command, access_token: accessToken });
+      }
+
+      window.setInterval(function() {
+          requestURL = "https://api.spark.io/v1/devices/" + deviceID + "/" + tempCount + "/?access_token=" + accessToken;
+          requestURL2 = "https://api.spark.io/v1/devices/" + deviceID + "/" + blanketState + "/?access_token=" + accessToken;
+
+          $.getJSON(requestURL, function(json) {
+                   document.getElementById("currenttempCount").innerHTML = json.result;
+                   document.getElementById("currenttempCount").style.fontSize = "28px";
+                   });
+           $.getJSON(requestURL2, function(json) {
+                    document.getElementById("currentblanketState").innerHTML = json.result;
+                    document.getElementById("currentblanketState").style.fontSize = "28px";
+                    });
+        }, 1000);
+
+    </script>
+
+
+  </body>
+</html>

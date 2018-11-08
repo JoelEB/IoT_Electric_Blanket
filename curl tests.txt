@@ -1,0 +1,9 @@
+curl https://api.particle.io/v1/devices/22001f000447343138333038/checkAction -d access_token=17eca6cd5930b921751370f8de980dfe3f59c2ac
+
+The above works, now to pass params?
+
+
+
+curl https://api.particle.io/v1/devices/22001f000447343138333038checkAction -d access_token=17eca6cd5930b921751370f8de980dfe3f59c2ac -d params=high
+
+success!!
